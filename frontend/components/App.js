@@ -11,7 +11,8 @@ export default class App extends React.Component {
     super();
     this.state = {
       todos: [],
-      error: ''
+      error: '',
+      inputValue: ''
     }
   }
 
@@ -29,6 +30,18 @@ export default class App extends React.Component {
   componentDidMount() {
     this.fetchAllTodos();
   }
+
+  todoOnChange = evt => {
+    const {value} = evt.target;
+    this.setState({...this.state, inputValue: value})
+  }
+
+  submitHandler = evt => {
+    evt.preventDefault();
+    this.addTodo(this.state.inputValue);
+    this.setState({...this.state, inputValue: ''});
+  }
+
 
   addTodo = todoName => {
     const newTodo = {
@@ -69,7 +82,10 @@ export default class App extends React.Component {
         <TodoList todos={this.state.todos} toggleCompleted={this.toggleCompleted}/>
         <Form 
           addTodo={this.addTodo} 
-          clearCompleted={this.clearCompleted} />
+          clearCompleted={this.clearCompleted}
+          todoOnChange={this.todoOnChange}
+          submitHandler={this.submitHandler}
+          inputValue={this.state.inputValue}/>
       </div>
     )
   }
