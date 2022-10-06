@@ -10,30 +10,34 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      todos: []
+      todos: [],
+      error: ''
     }
   }
 
-  componentDidMount() {
+  fetchAllTodos = () => {
     axios.get(URL)
       .then(res => {
-        this.setState({...this.state, todos: res.data.data})
+        this.setState({...this.state, todos: res.data.data, error: ''})
         console.log(this.state.todos);
       })
-      .catch(err => console.error(err));
+      .catch(err => this.setState({...this.state, error: err.response.data.message}));
+  }
+
+  componentDidMount() {
+    this.fetchAllTodos();
   }
 
   addTodo = todoName => {
     const newTodo = {
-      // id: Date.now(),
       name: todoName,
       completed: false
     }
     axios.post(URL, newTodo)
       .then(res => {
-        this.setState({...this.state, todos: [...this.state.todos, res.data.data]})
+        this.setState({...this.state, todos: [...this.state.todos, res.data.data], error: ''})
       })
-      .catch(err => console.error(err));
+      .catch(err => this.setState({...this.state, error: err.response.data.message}));
   }
 
   toggleStrikethrough = todoId => {
@@ -56,8 +60,11 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
+        <p id='error'>{this.state.error ? `Error: ${this.state.error}` : ''}</p>
         <TodoList todos={this.state.todos} toggleStrikethrough={this.toggleStrikethrough}/>
-        <Form addTodo={this.addTodo} clearCompleted={this.clearCompleted}/>
+        <Form 
+          addTodo={this.addTodo} 
+          clearCompleted={this.clearCompleted} />
       </div>
     )
   }

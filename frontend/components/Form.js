@@ -8,6 +8,11 @@ export default class Form extends React.Component {
     }
   }
 
+  todoOnChange = evt => {
+    const {value} = evt.target;
+    this.setState({...this.state, inputValue: value})
+  }
+
   submitHandler = evt => {
     evt.preventDefault();
     this.props.addTodo(this.state.inputValue);
@@ -17,12 +22,12 @@ export default class Form extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={evt => this.submitHandler(evt)}>
+        <form onSubmit={this.submitHandler}>
           <input
             type='text' 
             placeholder='new todo' 
             value={this.state.inputValue}
-            onChange={evt => this.setState({...this.state, inputValue: evt.target.value})} />
+            onChange={this.todoOnChange} />
           <button>Add Todo</button>
         </form>
         <button onClick={() => this.props.clearCompleted()}>Clear Completed Todos</button>
