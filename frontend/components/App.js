@@ -23,11 +23,25 @@ export default class App extends React.Component {
       .catch(err => console.error(err));
   }
 
+  addTodo = todoName => {
+    const newTodo = {
+      id: Date.now(),
+      name: todoName,
+      completed: false
+    }
+    axios.post(URL, newTodo)
+      .then(res => {
+        this.setState({...this.state, todos: [...this.state.todos, newTodo]})
+        console.log(this.state.todos);
+      })
+      .catch(err => console.error(err));
+  }
+
   render() {
     return (
       <div>
         <TodoList todos={this.state.todos}/>
-        <Form />
+        <Form addTodo={this.addTodo}/>
       </div>
     )
   }

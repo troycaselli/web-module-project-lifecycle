@@ -8,9 +8,15 @@ export default class Form extends React.Component {
     }
   }
 
+  submitHandler = evt => {
+    evt.preventDefault();
+    this.props.addTodo(this.state.inputValue);
+    this.setState({...this.state, inputValue: ''});
+  }
+
   render() {
     return (
-      <form>
+      <form onSubmit={evt => this.submitHandler(evt)}>
         <input
           type='text' 
           placeholder='new todo' 
