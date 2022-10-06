@@ -37,10 +37,21 @@ export default class App extends React.Component {
       .catch(err => console.error(err));
   }
 
+  toggleStrikethrough = todoId => {
+    axios.patch(`${URL}/${todoId}`)
+      .then(res => {
+        this.setState({...this.state, todos: this.state.todos.map(todo => {
+          if(todoId !== todo.id) return todo;
+          return res.data.data;
+        })})
+      })
+    console.log(this.state.todos);
+  }
+
   render() {
     return (
       <div>
-        <TodoList todos={this.state.todos}/>
+        <TodoList todos={this.state.todos} toggleStrikethrough={this.toggleStrikethrough}/>
         <Form addTodo={this.addTodo}/>
       </div>
     )
