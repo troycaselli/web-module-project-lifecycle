@@ -30,7 +30,7 @@ export default class Form extends React.Component {
             onChange={this.todoOnChange} />
           <button>Add Todo</button>
         </form>
-        <button onClick={() => this.props.clearCompleted()}>Clear Completed Todos</button>
+        <button onClick={this.props.clearCompleted}>Clear Completed Todos</button>
       </div>
     )
   }

@@ -10,7 +10,7 @@ export default class TodoList extends React.Component {
           return <Todo
             todo={todo} 
             key={idx} 
-            toggleStrikethrough={this.props.toggleStrikethrough}/>
+            toggleCompleted={this.props.toggleCompleted}/>
         })}
       </div>
     )

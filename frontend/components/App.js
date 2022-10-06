@@ -44,7 +44,7 @@ export default class App extends React.Component {
       .catch(this.setErrorMessage);
   }
 
-  toggleStrikethrough = todoId => {
+  toggleCompleted = todoId => {
     axios.patch(`${URL}/${todoId}`)
       .then(res => {
         this.setState({...this.state, todos: this.state.todos.map(todo => {
@@ -52,20 +52,21 @@ export default class App extends React.Component {
           return res.data.data;
         })})
       })
+      .catch(err => console.error(err));
     console.log(this.state.todos);
   }
 
   // BUG: this doesn't set the state with the filtered objects::: use axios?
   clearCompleted = () => {
     this.setState({todos: this.state.todos.filter(todo => todo.completed === false)})
-    console.log('new state', this.state.todos);
   }
 
   render() {
+    console.log('new state', this.state.todos);
     return (
       <div>
         <p id='error'>{this.state.error ? `Error: ${this.state.error}` : ''}</p>
-        <TodoList todos={this.state.todos} toggleStrikethrough={this.toggleStrikethrough}/>
+        <TodoList todos={this.state.todos} toggleCompleted={this.toggleCompleted}/>
         <Form 
           addTodo={this.addTodo} 
           clearCompleted={this.clearCompleted} />
