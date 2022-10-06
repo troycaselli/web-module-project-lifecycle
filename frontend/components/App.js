@@ -15,13 +15,15 @@ export default class App extends React.Component {
     }
   }
 
+  setErrorMessage = err => this.setState({...this.state, error: err.response.data.message})
+
   fetchAllTodos = () => {
     axios.get(URL)
       .then(res => {
         this.setState({...this.state, todos: res.data.data, error: ''})
         console.log(this.state.todos);
       })
-      .catch(err => this.setState({...this.state, error: err.response.data.message}));
+      .catch(this.setErrorMessage);
   }
 
   componentDidMount() {
@@ -35,9 +37,11 @@ export default class App extends React.Component {
     }
     axios.post(URL, newTodo)
       .then(res => {
-        this.setState({...this.state, todos: [...this.state.todos, res.data.data], error: ''})
+        // this.setState({...this.state, todos: [...this.state.todos, res.data.data], error: ''})
+        // OR
+        this.setState({...this.state, todos: this.state.todos.concat(res.data.data), error: ''})
       })
-      .catch(err => this.setState({...this.state, error: err.response.data.message}));
+      .catch(this.setErrorMessage);
   }
 
   toggleStrikethrough = todoId => {
