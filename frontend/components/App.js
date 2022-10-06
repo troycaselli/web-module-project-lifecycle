@@ -47,13 +47,10 @@ export default class App extends React.Component {
     console.log(this.state.todos);
   }
 
+  // BUG: this doesn't set the state with the filtered objects::: use axios?
   clearCompleted = () => {
-    this.setState({...this.state, todos: this.state.todos.filter(todo => {
-      if( todo.completed === false) {
-        return todo;
-      }
-    })})
-    
+    this.setState({todos: this.state.todos.filter(todo => todo.completed === false)})
+    console.log('new state', this.state.todos);
   }
 
   render() {

@@ -4,7 +4,6 @@ import Todo from './Todo';
 export default class TodoList extends React.Component {
   
   render() {
-    console.log(this.props);
     return (
       <div>
         {this.props.todos.map((todo, idx) => {
