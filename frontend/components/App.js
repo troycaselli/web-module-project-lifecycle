@@ -25,14 +25,13 @@ export default class App extends React.Component {
 
   addTodo = todoName => {
     const newTodo = {
-      id: Date.now(),
+      // id: Date.now(),
       name: todoName,
       completed: false
     }
     axios.post(URL, newTodo)
       .then(res => {
-        this.setState({...this.state, todos: [...this.state.todos, newTodo]})
-        console.log(this.state.todos);
+        this.setState({...this.state, todos: [...this.state.todos, res.data.data]})
       })
       .catch(err => console.error(err));
   }
@@ -48,11 +47,20 @@ export default class App extends React.Component {
     console.log(this.state.todos);
   }
 
+  clearCompleted = () => {
+    this.setState({...this.state, todos: this.state.todos.filter(todo => {
+      if( todo.completed === false) {
+        return todo;
+      }
+    })})
+    
+  }
+
   render() {
     return (
       <div>
         <TodoList todos={this.state.todos} toggleStrikethrough={this.toggleStrikethrough}/>
-        <Form addTodo={this.addTodo}/>
+        <Form addTodo={this.addTodo} clearCompleted={this.clearCompleted}/>
       </div>
     )
   }

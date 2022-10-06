@@ -16,16 +16,17 @@ export default class Form extends React.Component {
 
   render() {
     return (
-      <form onSubmit={evt => this.submitHandler(evt)}>
-        <input
-          type='text' 
-          placeholder='new todo' 
-          value={this.state.inputValue}
-          onChange={evt => this.setState({...this.state, inputValue: evt.target.value})} />
-        <button>Add Todo</button>
-        <br />
-        <button>Clear Completed Todos</button>
-      </form>
+      <div>
+        <form onSubmit={evt => this.submitHandler(evt)}>
+          <input
+            type='text' 
+            placeholder='new todo' 
+            value={this.state.inputValue}
+            onChange={evt => this.setState({...this.state, inputValue: evt.target.value})} />
+          <button>Add Todo</button>
+        </form>
+        <button onClick={() => this.props.clearCompleted()}>Clear Completed Todos</button>
+      </div>
     )
   }
 }
